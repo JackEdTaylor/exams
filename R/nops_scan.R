@@ -124,6 +124,8 @@ nops_scan <- function(
       format(Sys.time(), "%Y%m%d%H%M%S"), sep = "_")
     if(substr(tolower(file), nchar(file) - 3L, nchar(file)) != ".zip") file <- paste(file, "zip", sep = ".")
     writeLines(rval, file.path(tdir, if(string) "Daten2.txt" else "Daten.txt"))
+    cat(sprintf("Zipping files to '%s':", file))
+    cat(sprintf("%s\n", list.files()))
     zip(zipfile = file, files = list.files(tdir))
     file.copy(file, file.path(dir, file))
     invisible(rval)
