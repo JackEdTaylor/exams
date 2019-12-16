@@ -17,6 +17,7 @@ nops_scan <- function(
   dir <- file_path_as_absolute(dir)
   owd <- getwd()
   dir.create(tdir <- tempfile())
+  cat(sprintf("Temporary Directory: %s", tdir))
   on.exit(unlink(tdir))
 
   ## check whether images exist
