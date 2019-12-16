@@ -156,9 +156,9 @@ pdfs2pngs <- function(x, density = 300, dir = NULL, cores = NULL, verbose = TRUE
   }
 
   pdftk <- try(shsystem("pdftk --version", intern = TRUE, ignore.stdout = TRUE, ignore.stderr = TRUE), silent = TRUE)
-  magic <- try(shsystem("convert --version", intern = TRUE, ignore.stdout = TRUE, ignore.stderr = TRUE), silent = TRUE)
+  magic <- try(shsystem("magick --version", intern = TRUE, ignore.stdout = TRUE, ignore.stderr = TRUE), silent = TRUE)
   if(inherits(pdftk, "try-error")) stop("system requirement 'pdftk' is not available for merging/rotating/splitting PDFs")
-  if(inherits(magic, "try-error")) stop("system requirement 'convert' is not available for converting PDF to PNG")
+  if(inherits(magic, "try-error")) stop("system requirement 'magick' is not available for converting PDF to PNG")
   ## if(!requireNamespace("magick")) stop("'magick' package not available for converting PDF to PNG")
 
   ## if necessary: merge PDFs, otherwise rename only
@@ -192,7 +192,7 @@ pdfs2pngs <- function(x, density = 300, dir = NULL, cores = NULL, verbose = TRUE
     ## shell command on Windows
     for(i in pdfs) {
       if(verbose) cat(paste(i, ": Converting PDF to PNG.\n", sep = ""))
-      cmd <- paste("convert -density", density, i, gsub(".pdf", ".PNG", i, fixed = TRUE))
+      cmd <- paste("magick convert -density", density, i, gsub(".pdf", ".PNG", i, fixed = TRUE))
       shsystem(cmd)
       ## magick::image_write(
       ##   image = magick::image_read(i, density = density),
