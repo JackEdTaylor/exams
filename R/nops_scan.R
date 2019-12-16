@@ -119,14 +119,20 @@ nops_scan <- function(
 
   ## return output
   if(!identical(file, FALSE)) {
-    if(verbose) cat("\nCreating ZIP file:\n")
+    # if(verbose) cat("\nCreating ZIP file:\n")
     if(is.null(file) || !is.character(file)) file <- paste(if(string) "nops_string_scan" else "nops_scan",
       format(Sys.time(), "%Y%m%d%H%M%S"), sep = "_")
-    if(substr(tolower(file), nchar(file) - 3L, nchar(file)) != ".zip") file <- paste(file, "zip", sep = ".")
+    # if(substr(tolower(file), nchar(file) - 3L, nchar(file)) != ".zip") file <- paste(file, "zip", sep = ".")
     writeLines(rval, file.path(tdir, if(string) "Daten2.txt" else "Daten.txt"))
-    cat(sprintf("Zipping %i files to '%s'\n", length(list.files()), file))
-    zip(zipfile = file, files = list.files(tdir))
-    file.copy(file, file.path(dir, file))
+    cat(sprintf("Copying %i files from temporary folder to %s\n", length(list.files()), file))
+    # zip(zipfile = file, files = list.files(tdir))
+    # file.copy(file, file.path(dir, file))
+    
+    # just copy over the files, and rename the folder to that specified
+    file.copy(tdir, dir, recursive = T)
+    setwd(dir)
+    file.rename(basename(tdir), file)
+    
     invisible(rval)
   } else {
     return(rval)
